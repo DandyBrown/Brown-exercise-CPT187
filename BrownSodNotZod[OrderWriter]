@@ -1,0 +1,63 @@
+//AUTHOR: Dustin Brown
+//COURSE: CPT 187
+//PURPOSE: Order writing Class for SodNotZod that writes orders to new file
+//STARTDATE: 12/04/19
+
+package edu.cpt187.brown.participation;
+
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class OrderWriter 
+{
+	//declare and initialize constants
+	private int NOT_FOUND = -1;
+	private int RESET_VALUE = 0;
+	
+	//declare and initialize non-constant attributes
+	private String masterFileName = "";
+	private int recordCount = 0;
+	
+	//class constructor
+	public OrderWriter(String borrowedFileName)
+	{
+		masterFileName = borrowedFileName;
+	}//end constructor
+	
+	//set file writer
+	public void setwriteOrder(int borrowedItemID, String borrowedItemName, double borrowedItemPrice, 
+			int borrowedQuantity, double borrowedOrderCost)
+	{
+		if(recordCount < RESET_VALUE)
+		{
+			recordCount = RESET_VALUE;
+		}
+		try
+		{
+			PrintWriter filePW = new PrintWriter(new FileWriter(masterFileName, true));
+			filePW.printf("%d\t%s\t%f\t%d\t%f\r", borrowedItemID, borrowedItemName, borrowedItemPrice, borrowedQuantity, borrowedOrderCost);
+			recordCount++;
+			filePW.close();
+			
+		}
+		catch (IOException ex)
+		{
+			recordCount = NOT_FOUND;
+		}
+		
+	}//End setWriteOrder
+	
+	//return fileName
+	public String getFileName()
+	{
+		return masterFileName;
+	}//End getFileName
+	
+	//return recordCount
+	public int getRecordCount()
+	{
+		return recordCount;
+	}//End get recordCount
+	
+}
